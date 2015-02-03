@@ -32,7 +32,13 @@ namespace CommandMonitoring.Models
 
         public override string ToString()
         {
-            return "Drill Hole: " + TimeStamp;
+            return TimeStamp + 
+                " DF Pressure: " + DFPressure + ", "+
+                " DF Flow: " + DFFlow + ", " +
+                " Torque: " + Torque + ", " +
+                " WOB: " + WOB + ", " +
+                " RPM: " + RPM + ", " +
+                " ROP: " + ROP;
         }
     }
 }

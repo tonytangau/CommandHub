@@ -9,9 +9,21 @@
 
         // Add the message to the page.
         $('#messages').append('<li>' + encodedMsg + '</li>');
+
+        //$.connection.commandHub.server.updateDisplay();
+
+            $('#chart').data().kendoChart.dataSource.read();
+            $('#chart').data().kendoChart.refresh();
     }
 
-    $.connection.hub.start();
+    //hub.client.refresh = function () {
+    //    $('#chart').data().kendoChart.dataSource.read();
+    //    $('#chart').data().kendoChart.redraw();
+    //}
+
+    $.connection.hub.start().done(function() {
+        //$.connection.commandHub.server.updateDisplay();
+    });
 
     createChart();
 });
@@ -25,8 +37,12 @@ var hubDataSource = new kendo.data.DataSource({
             id: "DrillHoleId",
             fields: {
                 "DrillHoleId": { type: "Number" },
-                "TimeStamp": {type: "DateTime"},
+                "TimeStamp": { type: "DateTime" },
+                "DFPressure": { type: "Number" },
+                "DFFlow": { type: "Number" },
+                "Torque": { type: "Number" },
                 "WOB": { type: "Number" },
+                "RPM": { type: "Number" },
                 "ROP": { type: "Number" }
             }
         }
@@ -37,9 +53,6 @@ var hubDataSource = new kendo.data.DataSource({
             hub: $.connection.commandHub,
             server: {
                 read: "read"
-            },
-            client: {
-                read: "read"
             }
         }
     }
@@ -49,10 +62,10 @@ function createChart() {
     $("#chart").kendoChart({
         dataSource: hubDataSource,
         title: {
-            text: "Command monitoring system"
+            text: "DMS monitoring system"
         },
         legend: {
-            position: "bottom"
+            position: "top"
         },
         chartArea: {
             background: ""
@@ -61,30 +74,45 @@ function createChart() {
             type: "line"
         },
         series: [{
+            field: "DFPressure",
+            name: "DFPressure"
+        }, {
+            field: "DFFlow",
+            name: "DFFlow"
+        }, {
+            field: "Torque",
+            name: "Torque"
+        }, {
             field: "WOB",
             name: "WOB"
+        }, {
+            field: "RPM",
+            name: "RPM"
         }, {
             field: "ROP",
             name: "ROP"
         }],
         categoryAxis: {
             field: "TimeStamp",
+            type: "Date",
+            baseUnit: "fit",
             labels: {
-                format: "hh:mm:ss"
+                //rotation: 90,
+                dateFormats:
+                {
+                    seconds: "HH:mm:ss",
+                    minutes: "HH:mm",
+                    hours: "HH:mm",
+                    days: "dd/MM",
+                    months: "MMM yy",
+                    years: "yyyy"
+                }
             }
-            //},
-            //majorGridLines: {
-            //    visible: false
-            //}
         },
         valueAxis: {
             labels: {
                 format: "N"
             }
-            //},
-            //line: {
-            //    visible: false
-            //}
         },
         tooltip: {
             visible: true,
