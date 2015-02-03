@@ -18,6 +18,8 @@ namespace CommandMonitoring.Services
             var newDrillHole = context.DrillHoles.Add(hole);
             context.SaveChanges();
 
+            // TODO: Use Web API SignalR Integration when it's released
+            // https://www.nuget.org/packages/Microsoft.AspNet.WebApi.SignalR/
             using (CommandHub hub = new CommandHub())
             {
                 hub.UpdateDisplay(newDrillHole);

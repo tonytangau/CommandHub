@@ -124,6 +124,10 @@
     <None Include="Scripts\jquery-2.1.3-vsdoc.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Styles\kendo.common.min.css" />
+    <Content Include="Styles\kendo.dataviz.default.min.css" />
+    <Content Include="Styles\kendo.dataviz.min.css" />
+    <Content Include="Styles\kendo.default.min.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
