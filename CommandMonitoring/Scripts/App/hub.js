@@ -10,19 +10,11 @@
         // Add the message to the page.
         $('#messages').append('<li>' + encodedMsg + '</li>');
 
-        //$.connection.commandHub.server.updateDisplay();
-
-            $('#chart').data().kendoChart.dataSource.read();
-            $('#chart').data().kendoChart.refresh();
+        $('#chart').data().kendoChart.dataSource.read();
+        $('#chart').data().kendoChart.refresh();
     }
 
-    //hub.client.refresh = function () {
-    //    $('#chart').data().kendoChart.dataSource.read();
-    //    $('#chart').data().kendoChart.redraw();
-    //}
-
     $.connection.hub.start().done(function() {
-        //$.connection.commandHub.server.updateDisplay();
     });
 
     createChart();
@@ -71,7 +63,8 @@ function createChart() {
             background: ""
         },
         seriesDefaults: {
-            type: "line"
+            type: "line",
+            style: "smooth"
         },
         series: [{
             field: "DFPressure",
@@ -108,6 +101,10 @@ function createChart() {
                     years: "yyyy"
                 }
             }
+            //},
+            //majorGridLines: {
+            //    visible: false
+            //}
         },
         valueAxis: {
             labels: {

@@ -76,7 +76,7 @@ namespace CommandMonitoring.Migrations
                     RPM = 0.8,
                     ROP = 3.2,
                     ProjectId = projects.Single(c => c.ProjectName == "SA Project").CompanyId,
-                    TimeStamp = DateTime.Now
+                    TimeStamp = DateTime.Now.AddSeconds(-2)
                 },
                 new DrillHole()
                 {
@@ -87,7 +87,7 @@ namespace CommandMonitoring.Migrations
                     RPM = 3.8,
                     ROP = 5.2,
                     ProjectId = projects.Single(c => c.ProjectName == "SA Project").CompanyId,
-                    TimeStamp = DateTime.Now
+                    TimeStamp = DateTime.Now.AddSeconds(-1)
                 },
                 new DrillHole()
                 {

@@ -48,7 +48,9 @@ namespace CommandDataGenerator
         private void PostData()
         {
             // Post to our Web API
-            const string uri = "http://localhost:62477/api/drillholes";
+            const string uri = "http://commandhub.azurewebsites.net/api/drillholes";
+            //http://commandhub.azurewebsites.net/
+            //http://localhost:62477/api/drillholes
             var hole = new DrillHole();
             hole.ProjectId = 1;
             hole.TimeStamp = new DateTimeOffset(DateTime.Now);
@@ -101,7 +103,9 @@ namespace CommandDataGenerator
         {
             if (checkBox1.Checked)
             {
+                // Start after 1 second
                 var dueTime = TimeSpan.FromSeconds(1);
+                // Send data every second
                 var interval = TimeSpan.FromSeconds(1);
 
                 cancellationToken = new CancellationTokenSource();

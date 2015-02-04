@@ -8,23 +8,6 @@ using Microsoft.AspNet.SignalR;
 
 namespace CommandMonitoring.SignalR
 {
-    //public class CommandHub : Hub
-    //{
-    //    public void UpdateDisplay(DrillHole newDrillHole)
-    //    {
-    //        var hubContext = GlobalHost.ConnectionManager.GetHubContext<CommandHub>();
-    //        hubContext.Clients.All.broadcastMessage("New Drill hole data arrived: " + newDrillHole);
-    //        hubContext.Clients.All.refresh();
-    //    }
-
-    //    public IEnumerable<DrillHole> Read()
-    //    {
-    //        var repo = new DrillHoleRepository();
-
-    //        return repo.GetHolesForProject(1).ToList().Take(10);
-    //    }
-    //}
-
     public class CommandHub : Hub
     {
         // Is set via the constructor on each creation
