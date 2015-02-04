@@ -69,7 +69,10 @@ namespace CommandMonitoring.SignalR
         {
             var repo = new DrillHoleRepository();
 
-            return repo.GetHolesForProject(1).OrderByDescending(h => h.DrillHoleId).ToList().Take(10);
+            // We only show data from last 2 mins
+            var lowerBoundTime = DateTime.UtcNow.AddMinutes(-2);
+
+            return repo.GetHolesForProject(1).OrderByDescending(h => h.DrillHoleId).ToList().Take(20).Where(h => h.TimeStamp.ToUniversalTime() > lowerBoundTime);
         }
 
         public static Broadcaster Instance

@@ -48,9 +48,10 @@ namespace CommandDataGenerator
         private void PostData()
         {
             // Post to our Web API
-            const string uri = "http://commandhub.azurewebsites.net/api/drillholes";
-            //http://commandhub.azurewebsites.net/
+            //http://commandhub.azurewebsites.net/api/drillholes
             //http://localhost:62477/api/drillholes
+            const string uri = "http://commandhub.azurewebsites.net/api/drillholes";
+
             var hole = new DrillHole();
             hole.ProjectId = 1;
             hole.TimeStamp = new DateTimeOffset(DateTime.Now);
