@@ -69,6 +69,7 @@ namespace CommandMonitoring.Migrations
             {
                 new DrillHole()
                 {
+                    DrillHoleId = 1,
                     DFPressure = 0.2,
                     DFFlow = 1.2,
                     Torque = 0.6,
@@ -80,6 +81,7 @@ namespace CommandMonitoring.Migrations
                 },
                 new DrillHole()
                 {
+                    DrillHoleId = 2,
                     DFPressure = 0.4,
                     DFFlow = 1.3,
                     Torque = 0.7,
@@ -91,6 +93,7 @@ namespace CommandMonitoring.Migrations
                 },
                 new DrillHole()
                 {
+                    DrillHoleId = 3,
                     DFPressure = 1.2,
                     DFFlow = 2.2,
                     Torque = 1.6,
@@ -102,15 +105,18 @@ namespace CommandMonitoring.Migrations
                 }
             };
 
-            foreach (DrillHole hole in holes)
-            {
-                var holesInDataBase = context.DrillHoles.SingleOrDefault(h => h.ProjectId == hole.ProjectId &&
-                                                                              h.TimeStamp == hole.TimeStamp);
-                if (holesInDataBase == null)
-                {
-                    context.DrillHoles.Add(hole);
-                }
-            }
+            //foreach (DrillHole hole in holes)
+            //{
+            //    var holesInDataBase = context.DrillHoles.SingleOrDefault(h => h.ProjectId == hole.ProjectId &&
+            //                                                                  h.TimeStamp == hole.TimeStamp);
+            //    if (holesInDataBase == null)
+            //    {
+            //        context.DrillHoles.Add(hole);
+            //    }
+            //}
+
+            holes.ForEach(hole => context.DrillHoles.AddOrUpdate(d => d.DrillHoleId, hole));
+
             context.SaveChanges();
         }
     }
