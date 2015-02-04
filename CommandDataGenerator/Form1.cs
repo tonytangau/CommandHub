@@ -50,7 +50,7 @@ namespace CommandDataGenerator
             // Post to our Web API
             //http://commandhub.azurewebsites.net/api/drillholes
             //http://localhost:62477/api/drillholes
-            const string uri = "http://commandhub.azurewebsites.net/api/drillholes";
+            const string uri = "http://localhost:62477/api/drillholes";
 
             var hole = new DrillHole();
             hole.ProjectId = 1;

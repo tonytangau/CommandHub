@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="Content/kendo.dataviz.min.css" />
     <link rel="stylesheet" href="Content/kendo.dataviz.default.min.css" />
     <link rel="stylesheet" href="Content/bootstrap.min.css"/>
+    <link rel="stylesheet" href="Content/site.css?v=1"/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
@@ -21,14 +22,119 @@
         <li role="presentation"><a href="#">SRU</a></li>
     </ul>
 
-    <div class="k-content">
-        <div id="chart"></div>
+    <div class="chart-wrapper">
+        <div id="chart" style="width:100%"></div>
     </div>
 
-    <br />
+    <br/>
+
+    <div class="row" style="margin-right: -10px">
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">DF Pressure</div>
+                <div class="panel-body auto-overflow">
+                    <div id="DFPressureReading" class="bigger-font">N/A</div>
+                    <hr class="hr-margin" />
+                    <div>
+                        <label>Min: </label>
+                        <span id="DFPressureReadingMin"></span>
+                    </div>
+                    <div>
+                        <label>Max: </label>
+                        <span id="DFPressureReadingMax"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">DF Flow</div>
+                <div class="panel-body auto-overflow">
+                    <div id="DFFlowReading" class="bigger-font">N/A</div>
+                    <hr class="hr-margin" />
+                    <div>
+                        <label>Min: </label>
+                        <span id="DFFlowReadingMin"></span>
+                    </div>
+                    <div>
+                        <label>Max: </label>
+                        <span id="DFFlowReadingMax"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Torque</div>
+                <div class="panel-body auto-overflow">
+                    <div id="TorqueReading" class="bigger-font">N/A</div>
+                    <hr class="hr-margin" />
+                    <div>
+                        <label>Min: </label>
+                        <span id="TorqueReadingMin"></span>
+                    </div>
+                    <div>
+                        <label>Max: </label>
+                        <span id="TorqueReadingMax"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">WOB</div>
+                <div class="panel-body auto-overflow">
+                    <div id="WOBReading" class="bigger-font">N/A</div>
+                    <hr class="hr-margin" />
+                    <div>
+                        <label>Min: </label>
+                        <span id="WOBReadingMin"></span>
+                    </div>
+                    <div>
+                        <label>Max: </label>
+                        <span id="WOBReadingMax"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">RPM</div>
+                <div class="panel-body">
+                    <div id="RPMReading" class="bigger-font">N/A</div>
+                    <hr class="hr-margin" />
+                    <div>
+                        <label>Min: </label>
+                        <span id="RPMReadingMin"></span>
+                    </div>
+                    <div>
+                        <label>Max: </label>
+                        <span id="RPMReadingMax"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">ROP</div>
+                <div class="panel-body auto-overflow">
+                    <div id="ROPReading" class="bigger-font">N/A</div>
+                    <hr class="hr-margin" />
+                    <div>
+                        <label>Min: </label>
+                        <span id="ROPReadingMin"></span>
+                    </div>
+                    <div>
+                        <label>Max: </label>
+                        <span id="ROPReadingMax"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading">Messages</div>
+        <div class="panel-heading">Messages (Debug)</div>
         <div class="panel-body" id="messages">
         </div>
     </div>
