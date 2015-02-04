@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommandMonitoring.Models;
@@ -17,6 +18,8 @@ namespace CommandDataGenerator
 {
     public partial class Form1 : Form
     {
+        private CancellationTokenSource cancellationToken;
+
         public Form1()
         {
             InitializeComponent();
@@ -71,6 +74,43 @@ namespace CommandDataGenerator
             {
                 Debug.WriteLine(String.Format("StatusCode == {0}", httpWebResponse.StatusCode));
                 Debug.WriteLine(sr.ReadToEnd());
+            }
+        }
+
+        private async Task DoPeriodicWorkAsync(TimeSpan startTimeSpan, TimeSpan interval, CancellationToken token)
+        {
+            // Initial wait time before we begin the periodic loop.
+            if (startTimeSpan > TimeSpan.Zero)
+            {
+                await Task.Delay(startTimeSpan, token);                
+            }
+
+            // Repeat this loop until cancelled.
+            while (!token.IsCancellationRequested)
+            {
+                PostData();
+                GenerateRandomValue();
+
+                // Wait to repeat again.
+                if (interval > TimeSpan.Zero)
+                    await Task.Delay(interval, token);
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                var dueTime = TimeSpan.FromSeconds(1);
+                var interval = TimeSpan.FromSeconds(1);
+
+                cancellationToken = new CancellationTokenSource();
+
+                DoPeriodicWorkAsync(dueTime, interval, cancellationToken.Token);
+            }
+            else
+            {
+                cancellationToken.Cancel();
             }
         }
     }

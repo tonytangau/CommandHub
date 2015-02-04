@@ -75,10 +75,10 @@ function createChart() {
         },
         series: [{
             field: "DFPressure",
-            name: "DFPressure"
+            name: "DF Pressure"
         }, {
             field: "DFFlow",
-            name: "DFFlow"
+            name: "DF Flow"
         }, {
             field: "Torque",
             name: "Torque"
@@ -95,9 +95,9 @@ function createChart() {
         categoryAxis: {
             field: "TimeStamp",
             type: "Date",
-            baseUnit: "fit",
+            baseUnit: "seconds",
             labels: {
-                //rotation: 90,
+                rotation: 90,
                 dateFormats:
                 {
                     seconds: "HH:mm:ss",

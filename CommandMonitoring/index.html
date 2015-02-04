@@ -2,22 +2,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Command Monitoring</title>
-    <link rel="stylesheet" href="Styles/kendo.common.min.css" />
-    <link rel="stylesheet" href="Styles/kendo.default.min.css" />
-    <link rel="stylesheet" href="Styles/kendo.dataviz.min.css" />
-    <link rel="stylesheet" href="Styles/kendo.dataviz.default.min.css" />
+    <link rel="stylesheet" href="Content/kendo.common.min.css" />
+    <link rel="stylesheet" href="Content/kendo.default.min.css" />
+    <link rel="stylesheet" href="Content/kendo.dataviz.min.css" />
+    <link rel="stylesheet" href="Content/kendo.dataviz.default.min.css" />
+    <link rel="stylesheet" href="Content/bootstrap.min.css" />
 </head>
 <body>
 
-<h1>Command Monitoring</h1>
+<div style="padding: 10px">
+    <h3>Command Monitoring</h3>
+
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">DMS</a></li>
+        <li role="presentation"><a href="#">LAR</a></li>
+        <li role="presentation"><a href="#">SRU</a></li>
+    </ul>
 
     <div class="k-content">
         <div id="chart"></div>
     </div>
 
-<br/>
+    <br />
 
-<div id="messages"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Messages</div>
+        <div class="panel-body" id="messages">
+        </div>
+    </div>
+</div>
+
 
 <script src="Scripts/jquery-2.1.3.min.js"></script>
 <script src="Scripts/jquery.signalR-2.2.0.min.js"></script>
