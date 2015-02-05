@@ -15,8 +15,7 @@ namespace CommandMonitoring.SignalR
         // Is set via the constructor on each creation
         private Broadcaster _broadcaster;
 
-        public CommandHub()
-            : this(Broadcaster.Instance)
+        public CommandHub(): this(Broadcaster.Instance)
         {
         }
 
@@ -41,11 +40,13 @@ namespace CommandMonitoring.SignalR
             private readonly static Lazy<Broadcaster> _instance = new Lazy<Broadcaster>(() => new Broadcaster());
  
             private readonly IHubContext _hubContext;
+            private HubContext _context;
 
             public Broadcaster()
             {
                 // Save our hub context so we can easily use it to send to its connected clients
                 _hubContext = GlobalHost.ConnectionManager.GetHubContext<CommandHub>();
+                _context = new HubContext();
             }
 
             public void BroadcastUpdate(DrillHole newDrillHole)
@@ -58,12 +59,14 @@ namespace CommandMonitoring.SignalR
 
             public async Task<IEnumerable<DrillHole>> GetDrillHoles()
             {
-                var repo = new DrillHoleRepository();
+                //var repo = new DrillHoleRepository();
 
                 // We only show data from last 2 mins
                 var lowerBoundTime = DateTime.UtcNow.AddMinutes(-2);
 
-                var result = await repo.GetHolesForProject(1).OrderByDescending(h => h.DrillHoleId).Take(20).ToListAsync();
+                //var result = await repo.GetHolesForProject(1).OrderByDescending(h => h.DrillHoleId).Take(20).ToListAsync();
+                var result = await _context.DrillHoles.Where(h => h.ProjectId == 1).OrderByDescending(h => h.DrillHoleId).Take(20).ToListAsync();
+
                 return result.Where(h => h.TimeStamp.ToUniversalTime() > lowerBoundTime);
             }
 
