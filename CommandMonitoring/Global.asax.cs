@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
+using Elmah.Contrib.WebApi;
 
 namespace CommandMonitoring
 {
@@ -13,7 +15,11 @@ namespace CommandMonitoring
             GlobalConfiguration.Configure((config) =>
             {
                 config.MapHttpAttributeRoutes();
+
+                config.Filters.Add(new ElmahHandleErrorApiAttribute());
             });
+
+            //GlobalConfiguration.Configuration.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
         }
 
         protected void Session_Start(object sender, EventArgs e)
