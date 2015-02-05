@@ -2,22 +2,20 @@
 
 $(function () {
 
-    $.connection.hub.start().done(function() {
-        
-    });
+    $.connection.hub.start();
 
     createChart();
-
-    hub.client.broadcastMessage = function (message) {
-        // Html encode display name and message.
-        var encodedMsg = $('<div />').text(message).html();
-
-        // Add the message to the page.
-        $('#messages').append('<li>' + encodedMsg + '</li>');
-
-        $('#chart').data().kendoChart.dataSource.read();
-    }
 });
+
+hub.client.broadcastMessage = function (message) {
+    // Html encode display name and message.
+    var encodedMsg = $('<div />').text(message).html();
+
+    // Add the message to the page.
+    $('#messages').append('<li>' + encodedMsg + '</li>');
+
+    $('#chart').data().kendoChart.dataSource.read();
+}
 
 var hubDataSource = new kendo.data.DataSource({
     type: "signalr",
