@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using CommandMonitoring.Models;
 using CommandMonitoring.Services;
 using Microsoft.AspNet.SignalR;
@@ -33,53 +34,44 @@ namespace CommandMonitoring.SignalR
         {
             return _broadcaster.GetDrillHoles();
         }
-    }
 
-    public class Broadcaster
-    {
-        private readonly static Lazy<Broadcaster> _instance = new Lazy<Broadcaster>(() => new Broadcaster());
-
-        // We're going to broadcast to all clients a maximum of 2 times per second
-        private readonly TimeSpan BroadcastInterval = TimeSpan.FromMilliseconds(1500);
-        private readonly IHubContext _hubContext;
-        private Timer _broadcastLoop;
-
-        public Broadcaster()
+        public class Broadcaster
         {
-            // Save our hub context so we can easily use it to send to its connected clients
-            _hubContext = GlobalHost.ConnectionManager.GetHubContext<CommandHub>();
+            private readonly static Lazy<Broadcaster> _instance = new Lazy<Broadcaster>(() => new Broadcaster());
+ 
+            private readonly IHubContext _hubContext;
 
-            // Start the broadcast loop
-            //_broadcastLoop = new Timer(
-            //    BroadcastUpdate,
-            //    null,
-            //    BroadcastInterval,
-            //    BroadcastInterval);
-        }
-
-        public void BroadcastUpdate(DrillHole newDrillHole)// object state, then get most recent items?
-        {
-            if (newDrillHole != null)
+            public Broadcaster()
             {
-                _hubContext.Clients.All.broadcastMessage("New drill hole data: " + newDrillHole);
+                // Save our hub context so we can easily use it to send to its connected clients
+                _hubContext = GlobalHost.ConnectionManager.GetHubContext<CommandHub>();
             }
-        }
 
-        public IEnumerable<DrillHole> GetDrillHoles()
-        {
-            var repo = new DrillHoleRepository();
-
-            // We only show data from last 2 mins
-            var lowerBoundTime = DateTime.UtcNow.AddMinutes(-2);
-
-            return repo.GetHolesForProject(1).OrderByDescending(h => h.DrillHoleId).ToList().Take(20).Where(h => h.TimeStamp.ToUniversalTime() > lowerBoundTime);
-        }
-
-        public static Broadcaster Instance
-        {
-            get
+            public void BroadcastUpdate(DrillHole newDrillHole)
             {
-                return _instance.Value;
+                if (newDrillHole != null)
+                {
+                    _hubContext.Clients.All.broadcastMessage("New drill hole data: " + newDrillHole);
+                }
+            }
+
+            //public IEnumerable<DrillHole> GetDrillHoles(int projectId)
+            public IEnumerable<DrillHole> GetDrillHoles()
+            {
+                var repo = new DrillHoleRepository();
+
+                // We only show data from last 2 mins
+                var lowerBoundTime = DateTime.UtcNow.AddMinutes(-2);
+
+                return repo.GetHolesForProject(1).OrderByDescending(h => h.DrillHoleId).ToList().Take(20).Where(h => h.TimeStamp.ToUniversalTime() > lowerBoundTime);
+            }
+
+            public static Broadcaster Instance
+            {
+                get
+                {
+                    return _instance.Value;
+                }
             }
         }
     }
