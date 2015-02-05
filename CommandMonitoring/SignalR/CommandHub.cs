@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,9 +31,9 @@ namespace CommandMonitoring.SignalR
             _broadcaster.BroadcastUpdate(newDrillHole);
         }
 
-        public IEnumerable<DrillHole> Read()
+        public async Task<IEnumerable<DrillHole>> Read()
         {
-            return _broadcaster.GetDrillHoles();
+            return await _broadcaster.GetDrillHoles();
         }
 
         public class Broadcaster
@@ -55,15 +56,15 @@ namespace CommandMonitoring.SignalR
                 }
             }
 
-            //public IEnumerable<DrillHole> GetDrillHoles(int projectId)
-            public IEnumerable<DrillHole> GetDrillHoles()
+            public async Task<IEnumerable<DrillHole>> GetDrillHoles()
             {
                 var repo = new DrillHoleRepository();
 
                 // We only show data from last 2 mins
                 var lowerBoundTime = DateTime.UtcNow.AddMinutes(-2);
 
-                return repo.GetHolesForProject(1).OrderByDescending(h => h.DrillHoleId).ToList().Take(20).Where(h => h.TimeStamp.ToUniversalTime() > lowerBoundTime);
+                var result = await repo.GetHolesForProject(1).OrderByDescending(h => h.DrillHoleId).Take(20).ToListAsync();
+                return result.Where(h => h.TimeStamp.ToUniversalTime() > lowerBoundTime);
             }
 
             public static Broadcaster Instance

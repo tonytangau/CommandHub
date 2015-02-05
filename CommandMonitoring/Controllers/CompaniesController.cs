@@ -1,18 +1,24 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Threading.Tasks;
 using System.Web.Http;
-using CommandMonitoring.Services;
+using System.Web.Http.Description;
+using CommandMonitoring.Models;
 
 namespace CommandMonitoring.Controllers
 {
     [RoutePrefix("api/companies")]
     public class CompaniesController : ApiController
     {
+        private HubContext _context = new HubContext();
+
         [Route("")]
-        public IHttpActionResult Get()
+        [ResponseType(typeof(Company))]
+        public async Task<IHttpActionResult> Get()
         {
             try
             {
-                return Ok(new CompanyRepository().GetCompanies());
+                return Ok(await _context.Companies.AsNoTracking().ToListAsync());
             }
             catch (Exception ex)
             {
@@ -21,11 +27,17 @@ namespace CommandMonitoring.Controllers
         }
 
         [Route("{id:int}")]
-        public IHttpActionResult Get(int id)
+        [ResponseType(typeof(Company))]
+        public async Task<IHttpActionResult> Get(int id)
         {
             try
             {
-                var company = new CompanyRepository().GetById(id);
+                var company = await _context.Companies.FindAsync(id);
+
+                if (company == null)
+                {
+                    return NotFound();
+                }
 
                 return Ok(company);
             }

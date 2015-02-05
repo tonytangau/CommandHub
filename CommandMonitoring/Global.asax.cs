@@ -18,8 +18,6 @@ namespace CommandMonitoring
 
                 config.Filters.Add(new ElmahHandleErrorApiAttribute());
             });
-
-            //GlobalConfiguration.Configuration.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
         }
 
         protected void Session_Start(object sender, EventArgs e)

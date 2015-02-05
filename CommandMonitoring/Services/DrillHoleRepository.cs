@@ -18,20 +18,12 @@ namespace CommandMonitoring.Services
             var newDrillHole = context.DrillHoles.Add(hole);
             context.SaveChanges();
 
-            // TODO: Use Web API SignalR Integration when it's released
-            // https://www.nuget.org/packages/Microsoft.AspNet.WebApi.SignalR/
-            using (CommandHub hub = new CommandHub())
-            {
-                hub.UpdateDisplay(newDrillHole);
-            }
-
             return newDrillHole;
         }
 
-        public IQueryable<DrillHole> GetHolesForProject(int project) // Number of items?
+        public IQueryable<DrillHole> GetHolesForProject(int projectId)
         {
-            // Need to OrderByDescending and Reverse if we want the most recent X items
-            return context.DrillHoles.Where(h => h.ProjectId == project).OrderBy(h => h.TimeStamp);
+            return context.DrillHoles.AsNoTracking().Where(h => h.ProjectId == projectId);
         }
     }
 }

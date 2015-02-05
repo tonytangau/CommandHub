@@ -1,30 +1,39 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using CommandMonitoring.Models;
 using CommandMonitoring.Services;
+using CommandMonitoring.SignalR;
 
 namespace CommandMonitoring.Controllers
 {
     [RoutePrefix("api/drillHoles")]
     public class DrillHolesController : ApiController
     {
-        [Route("~/api/projects/{projectId:int}/drillHoles")]
-        public IHttpActionResult GetForCompany(int projectId)
-        {
-            try
-            {
-                var holes = new DrillHoleRepository().GetHolesForProject(projectId);
+        private HubContext _context = new HubContext();
 
-                return Ok(holes);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[Route("~/api/projects/{projectId:int}/drillHoles")]
+        //[ResponseType(typeof(DrillHole))]
+        //public async Task<IHttpActionResult> GetForProject(int projectId)
+        //{
+        //    try
+        //    {
+        //        var holes = await _context.DrillHoles.Where(p => p.ProjectId == projectId).ToListAsync();
+
+        //        return Ok(holes);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         [Route("")]
-        public IHttpActionResult Post(DrillHole drillHole)
+        [ResponseType(typeof(DrillHole))]
+        public async Task<IHttpActionResult> Post(DrillHole drillHole)
         {
             if (!ModelState.IsValid)
             {
@@ -33,9 +42,17 @@ namespace CommandMonitoring.Controllers
 
             try
             {
-                var newHole = new DrillHoleRepository().AddDrillHole(drillHole);
+                _context.DrillHoles.Add(drillHole);
+                await _context.SaveChangesAsync();
 
-                return Ok(newHole);
+                // TODO: Use Web API SignalR Integration
+                // https://www.nuget.org/packages/Microsoft.AspNet.WebApi.SignalR/
+                using (CommandHub hub = new CommandHub())
+                {
+                    hub.UpdateDisplay(drillHole);
+                }
+
+                return Ok(drillHole);
             }
             catch (Exception ex)
             {
