@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="Content/kendo.dataviz.min.css" />
     <link rel="stylesheet" href="Content/kendo.dataviz.default.min.css" />
     <link rel="stylesheet" href="Content/bootstrap.min.css"/>
-    <link rel="stylesheet" href="Content/site.css?v=2"/>
+    <link rel="stylesheet" href="Content/site.css?v=3"/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
@@ -29,7 +29,10 @@
     <div class="row" style="margin-right: -10px">
         <div class="col-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">DF Pressure</div>
+                <div class="panel-heading">
+                    <span>DF Pressure</span>
+                    <button id="DFPressureButton" type="button" class="btn btn-info">Filter</button>
+                </div>
                 <div class="panel-body auto-overflow">
                     <div id="DFPressureReading" class="bigger-font">N/A</div>
                     <hr class="hr-margin"/>
@@ -46,7 +49,10 @@
         </div>
         <div class="col-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">DF Flow</div>
+                <div class="panel-heading">
+                    <span>DF Flow</span>
+                    <button id="DFFlowButton" type="button" class="btn btn-info">Filter</button>
+                </div>
                 <div class="panel-body auto-overflow">
                     <div id="DFFlowReading" class="bigger-font">N/A</div>
                     <hr class="hr-margin"/>
@@ -63,7 +69,10 @@
         </div>
         <div class="col-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Torque</div>
+                <div class="panel-heading">
+                    <span>Torque</span>
+                    <button id="TorqueButton" type="button" class="btn btn-info">Filter</button>
+                </div>
                 <div class="panel-body auto-overflow">
                     <div id="TorqueReading" class="bigger-font">N/A</div>
                     <hr class="hr-margin"/>
@@ -80,7 +89,10 @@
         </div>
         <div class="col-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">WOB</div>
+                <div class="panel-heading">
+                    <span>WOB</span>
+                    <button id="WOBButton" type="button" class="btn btn-info">Filter</button>
+                </div>
                 <div class="panel-body auto-overflow">
                     <div id="WOBReading" class="bigger-font">N/A</div>
                     <hr class="hr-margin"/>
@@ -97,7 +109,10 @@
         </div>
         <div class="col-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">RPM</div>
+                <div class="panel-heading">
+                    <span>RPM</span>
+                    <button id="RPMButton" type="button" class="btn btn-info">Filter</button>
+                </div>
                 <div class="panel-body">
                     <div id="RPMReading" class="bigger-font">N/A</div>
                     <hr class="hr-margin"/>
@@ -114,7 +129,10 @@
         </div>
         <div class="col-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">ROP</div>
+                <div class="panel-heading">
+                    <span>ROP</span>
+                    <button id="ROPButton" type="button" class="btn btn-info">Filter</button>
+                </div>
                 <div class="panel-body auto-overflow">
                     <div id="ROPReading" class="bigger-font">N/A</div>
                     <hr class="hr-margin"/>
@@ -128,12 +146,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">Messages (Debug)</div>
-        <div class="panel-body" id="messages" style="max-height: 300px; overflow: auto">
         </div>
     </div>
 </div>

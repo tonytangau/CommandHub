@@ -31,12 +31,12 @@ namespace CommandDataGenerator
         {
             Random random = new Random();
 
-            numericUpDown1.Value = (decimal)random.NextDouble() * random.Next(1, 10);
-            numericUpDown2.Value = (decimal)random.NextDouble() * random.Next(1, 10);
-            numericUpDown3.Value = (decimal)random.NextDouble() * random.Next(1, 10);
-            numericUpDown4.Value = (decimal)random.NextDouble() * random.Next(1, 10);
-            numericUpDown5.Value = (decimal)random.NextDouble() * random.Next(1, 10);
-            numericUpDown6.Value = (decimal)random.NextDouble() * random.Next(1, 10);
+            numericUpDown1.Value = (decimal)random.Next(100, 300);
+            numericUpDown2.Value = (decimal)random.Next(200, 500);
+            numericUpDown3.Value = (decimal)random.Next(1000, 5000);
+            numericUpDown4.Value = (decimal)random.Next(0, 1000);
+            numericUpDown5.Value = (decimal)random.Next(200, 500);
+            numericUpDown6.Value = (decimal)random.Next(0, 1000);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -48,8 +48,8 @@ namespace CommandDataGenerator
         private void PostData()
         {
             // Post to our Web API
-            const string uri = "http://commandhub.azurewebsites.net/api/drillholes";
-            //const string uri = "http://localhost:62477/api/drillholes";
+            //const string uri = "http://commandhub.azurewebsites.net/api/drillholes";
+            const string uri = "http://localhost:62477/api/drillholes";
 
             var hole = new DrillHole();
             hole.ProjectId = 1;
@@ -84,7 +84,7 @@ namespace CommandDataGenerator
             // Initial wait time before we begin the periodic loop.
             if (startTimeSpan > TimeSpan.Zero)
             {
-                await Task.Delay(startTimeSpan, token);                
+                await Task.Delay(startTimeSpan, token);
             }
 
             // Repeat this loop until cancelled.
@@ -106,7 +106,7 @@ namespace CommandDataGenerator
                 // Start after 1 second
                 var dueTime = TimeSpan.FromSeconds(1);
                 // Send data every second
-                var interval = TimeSpan.FromSeconds(0.1);
+                var interval = TimeSpan.FromSeconds(1);
 
                 cancellationToken = new CancellationTokenSource();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading;
@@ -14,9 +15,17 @@ namespace CommandMonitoring.SignalR
     {
         // Is set via the constructor on each creation
         private Broadcaster _broadcaster;
+        private static int _lowerBoundInSeconds;
+        private static int _numberOfReadings;
 
         public CommandHub(): this(Broadcaster.Instance)
         {
+            // Default value if App setting is missing
+            _lowerBoundInSeconds = 120;
+            _numberOfReadings = 20;
+
+            int.TryParse(ConfigurationManager.AppSettings["LowerBoundInSeconds"], out _lowerBoundInSeconds);
+            int.TryParse(ConfigurationManager.AppSettings["NumberOfReadings"], out _numberOfReadings);
         }
 
         public CommandHub(Broadcaster broadcaster)
@@ -53,19 +62,15 @@ namespace CommandMonitoring.SignalR
             {
                 if (newDrillHole != null)
                 {
-                    _hubContext.Clients.All.broadcastMessage("New drill hole data: " + newDrillHole);
+                    _hubContext.Clients.All.broadcastMessage();
                 }
             }
 
             public async Task<IEnumerable<DrillHole>> GetDrillHoles()
             {
-                //var repo = new DrillHoleRepository();
+                var result = await _context.DrillHoles.Where(h => h.ProjectId == 1).OrderByDescending(h => h.DrillHoleId).Take(_numberOfReadings).ToListAsync();
 
-                // We only show data from last 2 mins
-                var lowerBoundTime = DateTime.UtcNow.AddMinutes(-2);
-
-                //var result = await repo.GetHolesForProject(1).OrderByDescending(h => h.DrillHoleId).Take(20).ToListAsync();
-                var result = await _context.DrillHoles.Where(h => h.ProjectId == 1).OrderByDescending(h => h.DrillHoleId).Take(20).ToListAsync();
+                var lowerBoundTime = DateTime.UtcNow.AddSeconds(-_lowerBoundInSeconds);
 
                 return result.Where(h => h.TimeStamp.ToUniversalTime() > lowerBoundTime);
             }
